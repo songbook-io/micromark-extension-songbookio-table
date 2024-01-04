@@ -1,2 +1,2 @@
-export {gfmTableHtml} from './lib/html.js'
-export {gfmTable} from './lib/syntax.js'
+export {songbookioGridHtml} from './lib/html.js'
+export {songbookioGrid} from './lib/syntax.js'

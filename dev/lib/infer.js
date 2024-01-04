@@ -18,7 +18,7 @@ import {ok as assert} from 'devlop'
  * @returns {Array<Align>}
  *   List of aligns.
  */
-export function gfmTableAlign(events, index) {
+export function songbookioGridAlign(events, index) {
   assert(events[index][1].type === 'table', 'expected table')
   let inDelimiterRow = false
   /** @type {Array<Align>} */

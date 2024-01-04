@@ -1,7 +1,7 @@
 {
-  "name": "micromark-extension-gfm-table",
+  "name": "micromark-extension-songbookio-grid",
   "version": "2.0.0",
-  "description": "micromark extension to support GFM tables",
+  "description": "micromark extension to support songbook.io grids",
   "license": "MIT",
   "keywords": [
     "micromark",
@@ -11,12 +11,12 @@
     "column",
     "cell",
     "tabular",
-    "gfm",
+    "songbookio",
     "markdown",
     "unified"
   ],
-  "repository": "micromark/micromark-extension-gfm-table",
-  "bugs": "https://github.com/micromark/micromark-extension-gfm-table/issues",
+  "repository": "songbook-io/micromark-extension-songbookio-grid",
+  "bugs": "https://github.com/songbook-io/micromark-extension-songbookio-grid/issues",
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/unified"

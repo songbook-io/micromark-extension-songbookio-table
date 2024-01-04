@@ -8,13 +8,6 @@
 
 import {ok as assert} from 'devlop'
 
-const alignment = {
-  none: '',
-  left: ' align="left"',
-  right: ' align="right"',
-  center: ' align="center"'
-}
-
 // To do: micromark@5: use `infer` here, when all events are exposed.
 
 /**
@@ -25,49 +18,31 @@ const alignment = {
  *   Extension for `micromark` that can be passed in `htmlExtensions` to
  *   support GitHub tables when serializing to HTML.
  */
-export function gfmTableHtml() {
+export function songbookioGridHtml() {
   return {
     enter: {
       table(token) {
-        const tableAlign = token._align
-        assert(tableAlign, 'expected `_align`')
         this.lineEndingIfNeeded()
         this.tag('<table>')
-        this.setData('tableAlign', tableAlign)
       },
       tableBody() {
+        this.lineEndingIfNeeded()
         this.tag('<tbody>')
       },
       tableData() {
-        const tableAlign = this.getData('tableAlign')
-        const tableColumn = this.getData('tableColumn')
-        assert(tableAlign, 'expected `tableAlign`')
-        assert(typeof tableColumn === 'number', 'expected `tableColumn`')
-        const align = alignment[tableAlign[tableColumn]]
-
-        if (align === undefined) {
-          // Capture results to ignore them.
-          this.buffer()
-        } else {
-          this.lineEndingIfNeeded()
-          this.tag('<td' + align + '>')
-        }
+        this.lineEndingIfNeeded()
+        this.tag('<td>')
+        // this.buffer()
       },
       tableHead() {
         this.lineEndingIfNeeded()
         this.tag('<thead>')
       },
       tableHeader() {
-        const tableAlign = this.getData('tableAlign')
-        const tableColumn = this.getData('tableColumn')
-        assert(tableAlign, 'expected `tableAlign`')
-        assert(typeof tableColumn === 'number', 'expected `tableColumn`')
-        const align = alignment[tableAlign[tableColumn]]
         this.lineEndingIfNeeded()
-        this.tag('<th' + align + '>')
+        this.tag('<th>')
       },
       tableRow() {
-        this.setData('tableColumn', 0)
         this.lineEndingIfNeeded()
         this.tag('<tr>')
       }
@@ -77,15 +52,9 @@ export function gfmTableHtml() {
       // they are in tables.
       codeTextData(token) {
         let value = this.sliceSerialize(token)
-
-        if (this.getData('tableAlign')) {
-          value = value.replace(/\\([\\|])/g, replace)
-        }
-
         this.raw(this.encode(value))
       },
       table() {
-        this.setData('tableAlign')
         // Note: we don’t set `slurpAllLineEndings` anymore, in delimiter rows,
         // but we do need to reset it to match a funky newline GH generates for
         // list items combined with tables.
@@ -98,42 +67,18 @@ export function gfmTableHtml() {
         this.tag('</tbody>')
       },
       tableData() {
-        const tableAlign = this.getData('tableAlign')
-        const tableColumn = this.getData('tableColumn')
-        assert(tableAlign, 'expected `tableAlign`')
-        assert(typeof tableColumn === 'number', 'expected `tableColumn`')
-
-        if (tableColumn in tableAlign) {
-          this.tag('</td>')
-          this.setData('tableColumn', tableColumn + 1)
-        } else {
-          // Stop capturing.
-          this.resume()
-        }
+        // this.resume()
+        this.tag('</td>')
       },
       tableHead() {
         this.lineEndingIfNeeded()
         this.tag('</thead>')
       },
       tableHeader() {
-        const tableColumn = this.getData('tableColumn')
-        assert(typeof tableColumn === 'number', 'expected `tableColumn`')
+        this.lineEndingIfNeeded()
         this.tag('</th>')
-        this.setData('tableColumn', tableColumn + 1)
       },
       tableRow() {
-        const tableAlign = this.getData('tableAlign')
-        let tableColumn = this.getData('tableColumn')
-        assert(tableAlign, 'expected `tableAlign`')
-        assert(typeof tableColumn === 'number', 'expected `tableColumn`')
-
-        while (tableColumn < tableAlign.length) {
-          this.lineEndingIfNeeded()
-          this.tag('<td' + alignment[tableAlign[tableColumn]] + '></td>')
-          tableColumn++
-        }
-
-        this.setData('tableColumn', tableColumn)
         this.lineEndingIfNeeded()
         this.tag('</tr>')
       }

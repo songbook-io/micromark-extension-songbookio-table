@@ -1,4 +1,4 @@
-# micromark-extension-gfm-table
+# micromark-extension-songbookio-grid
 
 [![Build][build-badge]][build]
 [![Coverage][coverage-badge]][coverage]
@@ -8,7 +8,7 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[micromark][] extensions to support GFM [tables][].
+[micromark][] extensions to support songbook.io [tables][].
 
 ## Contents
 
@@ -17,8 +17,8 @@
 *   [Install](#install)
 *   [Use](#use)
 *   [API](#api)
-    *   [`gfmTable()`](#gfmtable)
-    *   [`gfmTableHtml()`](#gfmtablehtml)
+    *   [`songbookioGrid()`](#songbookioGrid)
+    *   [`songbookioGridHtml()`](#songbookioGridhtml)
 *   [Bugs](#bugs)
 *   [Authoring](#authoring)
 *   [HTML](#html)
@@ -34,22 +34,12 @@
 ## What is this?
 
 This package contains extensions that add support for the table syntax enabled
-by GFM to [`micromark`][micromark].
+by songbook.io to [`micromark`][micromark].
 These extensions match github.com.
 
 ## When to use this
 
-This project is useful when you want to support tables in markdown.
-
-You can use these extensions when you are working with [`micromark`][micromark].
-To support all GFM features, use
-[`micromark-extension-gfm`][micromark-extension-gfm] instead.
-
-When you need a syntax tree, combine this package with
-[`mdast-util-gfm-table`][mdast-util-gfm-table].
-
-All these packages are used in [`remark-gfm`][remark-gfm], which focusses on
-making it easier to transform content by abstracting these internals away.
+This project is useful when you want to support songbook.io tables in markdown.
 
 ## Install
 
@@ -57,20 +47,20 @@ This package is [ESM only][esm].
 In Node.js (version 16+), install with [npm][]:
 
 ```sh
-npm install micromark-extension-gfm-table
+npm install micromark-extension-songbookio-grid
 ```
 
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {gfmTable, gfmTableHtml} from 'https://esm.sh/micromark-extension-gfm-table@2'
+import {songbookioGrid, songbookioGridHtml} from 'https://esm.sh/micromark-extension-songbookio-grid@2'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {gfmTable, gfmTableHtml} from 'https://esm.sh/micromark-extension-gfm-table@2?bundle'
+  import {songbookioGrid, songbookioGridHtml} from 'https://esm.sh/micromark-extension-songbookio-grid@2?bundle'
 </script>
 ```
 
@@ -78,11 +68,11 @@ In browsers with [`esm.sh`][esmsh]:
 
 ```js
 import {micromark} from 'micromark'
-import {gfmTable, gfmTableHtml} from 'micromark-extension-gfm-table'
+import {songbookioGrid, songbookioGridHtml} from 'micromark-extension-songbookio-grid'
 
 const output = micromark('| a |\n| - |', {
-  extensions: [gfmTable()],
-  htmlExtensions: [gfmTableHtml()]
+  extensions: [songbookioGrid()],
+  htmlExtensions: [songbookioGridHtml()]
 })
 
 console.log(output)
@@ -102,15 +92,15 @@ Yields:
 
 ## API
 
-This package exports the identifiers [`gfmTable`][api-gfm-table] and
-[`gfmTableHtml`][api-gfm-table-html].
+This package exports the identifiers [`songbookioGrid`][api-songbookio-table]
+and [`songbookioGridHtml`][api-songbookio-table-html].
 There is no default export.
 
 The export map supports the [`development` condition][development].
 Run `node --conditions development module.js` to get instrumented dev code.
 Without this condition, production code is loaded.
 
-### `gfmTable()`
+### `songbookioGrid()`
 
 Create an HTML extension for `micromark` to support GitHub tables syntax.
 
@@ -119,7 +109,7 @@ Create an HTML extension for `micromark` to support GitHub tables syntax.
 Extension for `micromark` that can be passed in `extensions` to enable GFM
 table syntax ([`Extension`][micromark-extension]).
 
-### `gfmTableHtml()`
+### `songbookioGridHtml()`
 
 Create an HTML extension for `micromark` to support GitHub tables when
 serializing to HTML.
@@ -397,7 +387,7 @@ versions of Node.js.
 When we cut a new major release, we drop support for unmaintained versions of
 Node.
 This means we try to keep the current release line,
-`micromark-extension-gfm-table@^2`, compatible with Node.js 16.
+`micromark-extension-songbookio-grid@^2`, compatible with Node.js 16.
 
 This package works with `micromark` version `3` and later.
 
@@ -409,7 +399,7 @@ This package is safe.
 
 *   [`micromark-extension-gfm`][micromark-extension-gfm]
     — support all of GFM
-*   [`mdast-util-gfm-table`][mdast-util-gfm-table]
+*   [`mdast-util-songbookio-table`][mdast-util-songbookio-table]
     — support all of GFM in mdast
 *   [`mdast-util-gfm`][mdast-util-gfm]
     — support all of GFM in mdast
@@ -432,21 +422,21 @@ abide by its terms.
 
 <!-- Definitions -->
 
-[build-badge]: https://github.com/micromark/micromark-extension-gfm-table/workflows/main/badge.svg
+[build-badge]: https://github.com/songbook-io/micromark-extension-songbookio-grid/workflows/main/badge.svg
 
-[build]: https://github.com/micromark/micromark-extension-gfm-table/actions
+[build]: https://github.com/songbook-io/micromark-extension-songbookio-grid/actions
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/micromark/micromark-extension-gfm-table.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/songbook-io/micromark-extension-songbookio-grid.svg
 
-[coverage]: https://codecov.io/github/micromark/micromark-extension-gfm-table
+[coverage]: https://codecov.io/github/songbook-io/micromark-extension-songbookio-grid
 
-[downloads-badge]: https://img.shields.io/npm/dm/micromark-extension-gfm-table.svg
+[downloads-badge]: https://img.shields.io/npm/dm/micromark-extension-songbookio-grid.svg
 
-[downloads]: https://www.npmjs.com/package/micromark-extension-gfm-table
+[downloads]: https://www.npmjs.com/package/micromark-extension-songbookio-grid
 
-[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=micromark-extension-gfm-table
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=micromark-extension-songbookio-grid
 
-[size]: https://bundlejs.com/?q=micromark-extension-gfm-table
+[size]: https://bundlejs.com/?q=micromark-extension-songbookio-grid
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
@@ -490,7 +480,7 @@ abide by its terms.
 
 [mdast-util-gfm]: https://github.com/syntax-tree/mdast-util-gfm
 
-[mdast-util-gfm-table]: https://github.com/syntax-tree/mdast-util-gfm-table
+[mdast-util-songbookio-table]: https://github.com/syntax-tree/mdast-util-songbookio-table
 
 [remark-gfm]: https://github.com/remarkjs/remark-gfm
 
@@ -510,6 +500,6 @@ abide by its terms.
 
 [github-markdown-css]: https://github.com/sindresorhus/github-markdown-css
 
-[api-gfm-table]: #gfmtable
+[api-songbookio-table]: #songbookioGrid
 
-[api-gfm-table-html]: #gfmtablehtml
+[api-songbookio-table-html]: #songbookioGridhtml
