@@ -1,4 +1,3 @@
-
 export {songbookioGridHtml} from './lib/html.js'
 export {songbookioGrid} from './lib/syntax.js'
 
@@ -12,7 +11,7 @@ declare module 'micromark-util-types' {
     gridBarLine: 'gridBarLine'
 
     gridContent: 'gridContent'
-    // gridDelimiter: 'gridDelimiter'
+    // GridDelimiter: 'gridDelimiter'
     // gridDelimiterFiller: 'gridDelimiterFiller'
     // gridDelimiterMarker: 'gridDelimiterMarker'
     // gridDelimiterRow: 'gridDelimiterRow'
@@ -20,5 +19,4 @@ declare module 'micromark-util-types' {
     gridTextSection: 'gridTextSection'
     gridText: 'gridHeader'
   }
-
 }

@@ -2,13 +2,7 @@
  * @typedef {import('micromark-util-types').HtmlExtension} HtmlExtension
  */
 
-/**
- * @typedef {import('./infer.js').Align} Align
- */
-
-import {ok as assert} from 'devlop'
-
-// To do: micromark@5: use `infer` here, when all events are exposed.
+// import {ok as assert} from 'devlop'
 
 /**
  * Create an HTML extension for `micromark` to support songbook.io grids when
@@ -21,7 +15,7 @@ import {ok as assert} from 'devlop'
 export function songbookioGridHtml() {
   return {
     enter: {
-      grid(token) {
+      grid() {
         this.lineEndingIfNeeded()
         this.tag('<table data-as="songbook-grid">')
       },
@@ -37,7 +31,7 @@ export function songbookioGridHtml() {
         this.lineEndingIfNeeded()
         this.tag('<td>')
 
-        // this.buffer()
+        // This.buffer()
       },
 
       gridTextSection() {
@@ -50,8 +44,6 @@ export function songbookioGridHtml() {
       }
     },
     exit: {
-
-
       grid() {
         // Note: we don’t set `slurpAllLineEndings` anymore, in delimiter rows,
         // but we do need to reset it to match a funky newline GH generates for
@@ -69,7 +61,7 @@ export function songbookioGridHtml() {
         this.tag('</tr>')
       },
       gridMeasure() {
-        // this.resume()
+        // This.resume()
 
         this.tag('</td>')
       },
@@ -86,19 +78,9 @@ export function songbookioGridHtml() {
       // Overwrite the default code text data handler to unescape escaped pipes when
       // they are in tables.
       codeTextData(token) {
-        let value = this.sliceSerialize(token)
+        const value = this.sliceSerialize(token)
         this.raw(this.encode(value))
       }
     }
   }
-}
-
-/**
- * @param {string} $0
- * @param {string} $1
- * @returns {string}
- */
-function replace($0, $1) {
-  // Pipes work, backslashes don’t (but can’t escape pipes).
-  return $1 === '|' ? $1 : $0
 }

@@ -46,10 +46,6 @@ export function songbookioGrid() {
  */
 function tokenizeGrid(effects, ok, nok) {
   const self = this
-  let size = 0
-  let sizeB = 0
-  /** @type {boolean | undefined} */
-  let seen
 
   return start
 
@@ -80,8 +76,6 @@ function tokenizeGrid(effects, ok, nok) {
         index--
       else break
     }
-
-    const tail = index > -1 ? self.events[index][1].type : null
 
     // Don’t allow lazy body rows.
     if (self.parser.lazy[self.now().line]) {
@@ -197,14 +191,12 @@ function tokenizeGrid(effects, ok, nok) {
 
 function resolveGrid(events, context) {
   let index = -1
-  let inFirstMeasureAwaitingPipes = 2
   /** @type {RowKind} */
   let rowKind = 0
   /** @type {Range} */
   let lastMeasure = [0, 0, 0, 0]
   /** @type {Range} */
   let cell = [0, 0, 0, 0]
-  let lastTableBodyEnd = 0
   let lastTableEnd = 0
   /** @type {Token | undefined} */
   let currentTable
@@ -222,9 +214,8 @@ function resolveGrid(events, context) {
     if (event[0] === 'enter') {
       // Start of head.
       if (token.type === 'gridRow') {
-
         // Open table
-        if(!currentTable) {
+        if (!currentTable) {
           // Inject table start.
           currentTable = {
             type: 'grid',
@@ -243,7 +234,6 @@ function resolveGrid(events, context) {
         }
         map.add(index, 0, [['enter', currentBody, context]])
 
-        inFirstMeasureAwaitingPipes = 2
         currentMeasure = undefined
         lastMeasure = [0, 0, 0, 0]
         cell = [0, index + 1, 0, 0]
@@ -253,31 +243,29 @@ function resolveGrid(events, context) {
         rowKind = currentBody ? 3 : 1
       }
       // Measure data.
-      else if ( rowKind && token.type === types.data ) {
-        inFirstMeasureAwaitingPipes -= 1
-
-        // First value in cell.
-        if (cell[2] === 0) {
-          if (lastMeasure[1] !== 0) {
-            cell[0] = cell[1]
-            currentMeasure = flushMeasure(
-              map,
-              context,
-              lastMeasure,
-              rowKind,
-              undefined,
-              currentMeasure
-            )
-            lastMeasure = [0, 0, 0, 0]
-          }
-
-          cell[2] = index
+      else if (
+        rowKind &&
+        token.type === types.data && // First value in cell.
+        cell[2] === 0
+      ) {
+        if (lastMeasure[1] !== 0) {
+          cell[0] = cell[1]
+          currentMeasure = flushMeasure(
+            map,
+            context,
+            lastMeasure,
+            rowKind,
+            undefined,
+            currentMeasure
+          )
+          lastMeasure = [0, 0, 0, 0]
         }
+
+        cell[2] = index
       }
     }
     // Exit events.
     else if (token.type === 'gridRow') {
-      lastTableBodyEnd = index
       lastTableEnd = index
 
       if (lastMeasure[1] !== 0) {
@@ -291,17 +279,20 @@ function resolveGrid(events, context) {
           currentMeasure
         )
       } else if (cell[1] !== 0) {
-        currentMeasure = flushMeasure(map, context, cell, rowKind, index, currentMeasure)
+        currentMeasure = flushMeasure(
+          map,
+          context,
+          cell,
+          rowKind,
+          index,
+          currentMeasure
+        )
       }
 
       rowKind = 0
 
       flushTableBodyEnd(map, context, lastTableEnd, currentBody)
-
-    } else if (
-      rowKind &&
-      (token.type === types.data)
-    ) {
+    } else if (rowKind && token.type === types.data) {
       cell[3] = index
     }
   }
@@ -418,7 +409,6 @@ function flushMeasure(map, context, range, rowKind, rowEnd, previousMeasure) {
   return previousMeasure
 }
 
-
 /**
  * Generate body end.
  *
@@ -427,7 +417,7 @@ function flushMeasure(map, context, range, rowKind, rowEnd, previousMeasure) {
  * @param {number} index
  * @param {Token | undefined} tableBody
  */
-// eslint-disable-next-line max-params
+
 function flushTableBodyEnd(map, context, index, tableBody) {
   /** @type {Array<Event>} */
   const exits = []
@@ -441,7 +431,6 @@ function flushTableBodyEnd(map, context, index, tableBody) {
   map.add(index + 1, 0, exits)
 }
 
-
 /**
  * Generate table end (and table body end).
  *
@@ -450,7 +439,7 @@ function flushTableBodyEnd(map, context, index, tableBody) {
  * @param {number} index
  * @param {Token | undefined} table
  */
-// eslint-disable-next-line max-params
+
 function flushTableEnd(map, context, index, table) {
   /** @type {Array<Event>} */
   const exits = []
