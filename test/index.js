@@ -29,7 +29,7 @@ test('markdown -> html (micromark) (songbook grid)', async function (t) {
           extensions: [songbookioGrid()],
           htmlExtensions: [songbookioGridHtml()]
         }),
-        '<table>\n<tbody>\n<tr>\n<td>Am</td>\n</tr>\n</tbody>\n</table>'
+        '<table data-as="songbook-grid">\n<tbody>\n<tr>\n<td>Am</td>\n</tr>\n</tbody>\n</table>'
       )
     }
   )
@@ -42,7 +42,7 @@ test('markdown -> html (micromark) (songbook grid)', async function (t) {
           extensions: [songbookioGrid()],
           htmlExtensions: [songbookioGridHtml()]
         }),
-        '<table>\n<tbody>\n<tr>\n<td>Am</td>\n</tr>\n</tbody>\n<tbody>\n<tr>\n<td>Am6</td>\n</tr>\n</tbody>\n</table>'
+        '<table data-as="songbook-grid">\n<tbody>\n<tr>\n<td>Am</td>\n</tr>\n</tbody>\n<tbody>\n<tr>\n<td>Am6</td>\n</tr>\n</tbody>\n</table>'
       )
     }
   )
@@ -55,7 +55,7 @@ test('markdown -> html (micromark) (songbook grid)', async function (t) {
   //         extensions: [songbookioGrid()],
   //         htmlExtensions: [songbookioGridHtml()]
   //       }),
-  //       '<table>\n<tbody>\n<tr>\n<td>Am</td>\n<td>B</td>\n<td>C7</td>\n<td>D</td>\n</tr>\n</tbody>\n</table>'
+  //       '<table data-as="songbook-grid">\n<tbody>\n<tr>\n<td>Am</td>\n<td>B</td>\n<td>C7</td>\n<td>D</td>\n</tr>\n</tbody>\n</table>'
   //     )
   //   }
   // )

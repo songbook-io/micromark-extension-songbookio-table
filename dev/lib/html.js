@@ -11,50 +11,48 @@ import {ok as assert} from 'devlop'
 // To do: micromark@5: use `infer` here, when all events are exposed.
 
 /**
- * Create an HTML extension for `micromark` to support GitHub tables when
+ * Create an HTML extension for `micromark` to support songbook.io grids when
  * serializing to HTML.
  *
  * @returns {HtmlExtension}
  *   Extension for `micromark` that can be passed in `htmlExtensions` to
- *   support GitHub tables when serializing to HTML.
+ *   support songbook.io grids when serializing to HTML.
  */
 export function songbookioGridHtml() {
   return {
     enter: {
-      table(token) {
+      grid(token) {
         this.lineEndingIfNeeded()
-        this.tag('<table>')
+        this.tag('<table data-as="songbook-grid">')
       },
-      tableBody() {
+      gridSection() {
         this.lineEndingIfNeeded()
         this.tag('<tbody>')
       },
-      tableData() {
+      gridRow() {
+        this.lineEndingIfNeeded()
+        this.tag('<tr>')
+      },
+      gridMeasure() {
         this.lineEndingIfNeeded()
         this.tag('<td>')
+
         // this.buffer()
       },
-      tableHead() {
+
+      gridTextSection() {
         this.lineEndingIfNeeded()
         this.tag('<thead>')
       },
-      tableHeader() {
+      gridText() {
         this.lineEndingIfNeeded()
         this.tag('<th>')
-      },
-      tableRow() {
-        this.lineEndingIfNeeded()
-        this.tag('<tr>')
       }
     },
     exit: {
-      // Overwrite the default code text data handler to unescape escaped pipes when
-      // they are in tables.
-      codeTextData(token) {
-        let value = this.sliceSerialize(token)
-        this.raw(this.encode(value))
-      },
-      table() {
+
+
+      grid() {
         // Note: we don’t set `slurpAllLineEndings` anymore, in delimiter rows,
         // but we do need to reset it to match a funky newline GH generates for
         // list items combined with tables.
@@ -62,25 +60,34 @@ export function songbookioGridHtml() {
         this.lineEndingIfNeeded()
         this.tag('</table>')
       },
-      tableBody() {
+      gridSection() {
         this.lineEndingIfNeeded()
         this.tag('</tbody>')
       },
-      tableData() {
+      gridRow() {
+        this.lineEndingIfNeeded()
+        this.tag('</tr>')
+      },
+      gridMeasure() {
         // this.resume()
+
         this.tag('</td>')
       },
-      tableHead() {
+
+      gridTextSection() {
         this.lineEndingIfNeeded()
         this.tag('</thead>')
       },
-      tableHeader() {
+      gridText() {
         this.lineEndingIfNeeded()
         this.tag('</th>')
       },
-      tableRow() {
-        this.lineEndingIfNeeded()
-        this.tag('</tr>')
+
+      // Overwrite the default code text data handler to unescape escaped pipes when
+      // they are in tables.
+      codeTextData(token) {
+        let value = this.sliceSerialize(token)
+        this.raw(this.encode(value))
       }
     }
   }
